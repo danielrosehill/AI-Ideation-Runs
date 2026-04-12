@@ -1,5 +1,18 @@
 [
   {
+    "id": "llm-council-use-cases/2026-04-12",
+    "topic": "Use Cases for Karpathy's LLM Council Model",
+    "prompt": "Use cases for Karpathy's LLM council model (multi-model deliberation/voting approach) that are particularly well-suited to its methodology. Include both personal and business use cases.",
+    "date": "2026-04-12",
+    "slug": "llm-council-use-cases",
+    "ideas": 10,
+    "depth": "standard",
+    "markdown_path": "runs/llm-council-use-cases/2026-04-12.md",
+    "pdf_path": null,
+    "tags": ["llm-council", "karpathy", "multi-model", "use-cases", "personal", "business"],
+    "source_runs": null
+  },
+  {
     "id": "ai-council-multi-model-deliberation-projects/2026-04-12",
     "topic": "AI Council / Multi-Model Deliberation Projects",
     "prompt": "20 projects that have explored multi-model deliberation / AI council approaches — tools that send a prompt to multiple AI models emulating different perspectives",
