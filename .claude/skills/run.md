@@ -77,9 +77,19 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
 
    Keep the table sorted by date descending (newest first).
 
-9. **Commit and push** with message: `Add ideation run: <topic>`
+9. **Upload PDF to Google Drive**. Upload the generated PDF to the AI Ideation Runs folder on Google Drive, organized into a subfolder matching the slug:
 
-10. **Report**: Tell the user how many ideas were generated, which categories were covered, and the path to the PDF.
+   - **Drive folder ID**: `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`
+   - **Workspace**: `personal`
+   - Use `mcp__jungle-personal__gws-personal__upload_file` with:
+     - `sourcePath`: the absolute path to the generated PDF
+     - `name`: `YYYY-MM-DD.pdf`
+     - `folderId`: First, create a subfolder named `<slug>` inside the Drive folder (parent ID `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`) using `create_folder`. Then upload into that subfolder's ID. If a subfolder for this slug already exists (e.g., repeat topic on a new date), reuse it.
+   - If the upload fails, warn the user but do not block the commit/push step.
+
+10. **Commit and push** with message: `Add ideation run: <topic>`
+
+11. **Report**: Tell the user how many ideas were generated, which categories were covered, the path to the PDF, and confirm the Google Drive upload.
 
 ## Isolation Rule
 

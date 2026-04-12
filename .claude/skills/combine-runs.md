@@ -62,6 +62,16 @@ Merge multiple ideation run markdown files into a single combined PDF with a tit
    | [Combined title] (combined) | YYYY-MM-DD | N total | combined | [PDF](combined/slug/YYYY-MM-DD.pdf) | — |
    ```
 
-8. **Commit and push** with message: `Add combined PDF: <title>`
+8. **Upload PDF to Google Drive**. Upload the combined PDF to the AI Ideation Runs folder on Google Drive, organized into a subfolder:
 
-9. **Report**: Tell the user the PDF path and total idea count.
+   - **Drive folder ID**: `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`
+   - **Workspace**: `personal`
+   - Use `mcp__jungle-personal__gws-personal__upload_file` with:
+     - `sourcePath`: the absolute path to the generated PDF
+     - `name`: `YYYY-MM-DD.pdf`
+     - `folderId`: First, create a subfolder named `combined--<slugified-title>` inside the Drive folder (parent ID `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`) using `create_folder`. Then upload into that subfolder's ID.
+   - If the upload fails, warn the user but do not block the commit/push step.
+
+9. **Commit and push** with message: `Add combined PDF: <title>`
+
+10. **Report**: Tell the user the PDF path, total idea count, and confirm the Google Drive upload.
