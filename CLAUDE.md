@@ -7,9 +7,12 @@ This is a public repository of AI ideation runs. The user provides a topic promp
 ## Workspace Structure
 
 ```
-runs/           # Individual ideation run outputs, one folder per topic
+runs/           # Individual ideation run outputs (markdown), one folder per topic
+outputs/        # PDF renders and INDEX.md
+  INDEX.md      # Table of all runs with links to PDFs and markdown sources
 .claude/
-  commands/     # Slash commands for the workflow
+  skills/       # Skills for the workflow
+  commands/     # Slash commands (legacy)
 ```
 
 ## Core Workflow
