@@ -1,5 +1,18 @@
 [
   {
+    "id": "llm-council-decision-framework-synthesis/2026-04-12",
+    "topic": "Augmenting LLM Council with Formal Decision Evaluation Methods",
+    "prompt": "How could Karpathy's LLM Council model be augmented by the decision evaluation framework which aims to integrate formal decision evaluation methods?",
+    "date": "2026-04-12",
+    "slug": "llm-council-decision-framework-synthesis",
+    "ideas": 1,
+    "depth": "comprehensive",
+    "markdown_path": "runs/llm-council-decision-framework-synthesis/2026-04-12.md",
+    "pdf_path": null,
+    "tags": ["llm-council", "karpathy", "decision-framework", "synthesis", "comprehensive"],
+    "source_runs": null
+  },
+  {
     "id": "llm-council-use-cases/2026-04-12",
     "topic": "Use Cases for Karpathy's LLM Council Model",
     "prompt": "Use cases for Karpathy's LLM council model (multi-model deliberation/voting approach) that are particularly well-suited to its methodology. Include both personal and business use cases.",
