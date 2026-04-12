@@ -61,10 +61,13 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
 7. **Spawn Typst PDF subagent** using the Agent tool. The subagent must:
    - Read the markdown file just saved
    - Write a `.typ` file in the same output folder that renders the ideas into a clean, professional PDF
-   - Use IBM Plex Sans font if available, fallback to sans-serif
+   - **Font**: IBM Plex Sans (installed on system). Set as the document's primary font; do not fall back to generic sans-serif.
    - Include a title page with the topic, date, and idea count
+   - **Page numbers**: centered in the footer on every page (including title page)
    - Each idea should be a clearly separated section with the fields styled distinctly
-   - Feasibility/Impact should use colored badges (green=High, orange=Medium, red=Low)
+   - Feasibility/Impact should use colored text (green=#2d8a4e for High, orange=#e67e22 for Medium, red=#c0392b for Low)
+   - Horizontal rule between ideas for visual separation
+   - Body text at 11pt, clean A4 margins
    - Compile the `.typ` file to PDF using `typst compile`
    - Save the PDF to `outputs/<slug>/YYYY-MM-DD.pdf`
    - Clean up the `.typ` file after successful compilation (or keep it — user's choice)
@@ -79,12 +82,15 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
 
 9. **Upload PDF to Google Drive**. Upload the generated PDF to the AI Ideation Runs folder on Google Drive, organized into a subfolder matching the slug:
 
-   - **Drive folder ID**: `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`
+   - **Drive parent folder ID**: `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt` (Ideation_Runs subfolder)
    - **Workspace**: `personal`
-   - Use `mcp__jungle-personal__gws-personal__upload_file` with:
-     - `sourcePath`: the absolute path to the generated PDF
+   - **Step A — Stage the file**: The GWS MCP runs on ubuntuvm, so local files must be staged first. Use `scp` to copy the PDF to `ubuntuvm:/tmp/gws-mcp-staging/` (or POST to the staging service at `http://10.0.0.4:3201/upload` if available).
+   - **Step B — Create Drive subfolder**: Use `mcp__jungle-personal__gws-personal__create_folder` to create a subfolder named `<slug>` inside `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt`. If a subfolder for this slug already exists (repeat topic on a new date), reuse it.
+   - **Step C — Upload**: Use `mcp__jungle-personal__gws-personal__upload_file` with:
+     - `sourcePath`: the **remote** path on ubuntuvm (e.g., `/tmp/gws-mcp-staging/YYYY-MM-DD.pdf`)
      - `name`: `YYYY-MM-DD.pdf`
-     - `folderId`: First, create a subfolder named `<slug>` inside the Drive folder (parent ID `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`) using `create_folder`. Then upload into that subfolder's ID. If a subfolder for this slug already exists (e.g., repeat topic on a new date), reuse it.
+     - `folderId`: the subfolder ID from Step B
+     - `cleanupSource`: `true` (auto-deletes the staged file after upload)
    - If the upload fails, warn the user but do not block the commit/push step.
 
 10. **Commit and push** with message: `Add ideation run: <topic>`

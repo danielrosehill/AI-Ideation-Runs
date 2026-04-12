@@ -26,14 +26,16 @@ Merge multiple ideation run markdown files into a single combined PDF with a tit
 
 5. **Spawn Typst PDF subagent** using the Agent tool. The subagent must:
    - Create a `.typ` file at `outputs/combined/<slugified-title>/YYYY-MM-DD.typ`
-   - Use IBM Plex Sans font if available, fallback to sans-serif
+   - **Font**: IBM Plex Sans (installed on system). Set as the document's primary font; do not fall back to generic sans-serif.
    - Structure:
      - **Title page**: Combined title, subtitle, date, list of included runs with idea counts
      - **Table of contents**: Auto-generated from run topics and idea names
      - **For each run**: A part/chapter divider page with the run topic, then all ideas from that run
    - Each idea should be a clearly separated section with fields styled distinctly
-   - Feasibility/Impact should use colored badges (green=High, orange=Medium, red=Low)
-   - Page numbers in footer
+   - Feasibility/Impact should use colored text (green=#2d8a4e for High, orange=#e67e22 for Medium, red=#c0392b for Low)
+   - Horizontal rule between ideas for visual separation
+   - **Page numbers**: centered in the footer on every page
+   - Body text at 11pt, clean A4 margins
    - Compile to PDF using `typst compile`
    - Save PDF to `outputs/combined/<slugified-title>/YYYY-MM-DD.pdf`
    - Keep the `.typ` source file
@@ -64,12 +66,15 @@ Merge multiple ideation run markdown files into a single combined PDF with a tit
 
 8. **Upload PDF to Google Drive**. Upload the combined PDF to the AI Ideation Runs folder on Google Drive, organized into a subfolder:
 
-   - **Drive folder ID**: `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`
+   - **Drive parent folder ID**: `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt` (Ideation_Runs subfolder)
    - **Workspace**: `personal`
-   - Use `mcp__jungle-personal__gws-personal__upload_file` with:
-     - `sourcePath`: the absolute path to the generated PDF
+   - **Step A — Stage the file**: SCP the PDF to `ubuntuvm:/tmp/gws-mcp-staging/` (or POST to the staging service at `http://10.0.0.4:3201/upload` if available).
+   - **Step B — Create Drive subfolder**: Use `mcp__jungle-personal__gws-personal__create_folder` to create `combined--<slugified-title>` inside `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt`.
+   - **Step C — Upload**: Use `mcp__jungle-personal__gws-personal__upload_file` with:
+     - `sourcePath`: the **remote** path on ubuntuvm
      - `name`: `YYYY-MM-DD.pdf`
-     - `folderId`: First, create a subfolder named `combined--<slugified-title>` inside the Drive folder (parent ID `1461BCTukC-zQY2yAZTtEIRcqraZRrnqU`) using `create_folder`. Then upload into that subfolder's ID.
+     - `folderId`: the subfolder ID from Step B
+     - `cleanupSource`: `true`
    - If the upload fails, warn the user but do not block the commit/push step.
 
 9. **Commit and push** with message: `Add combined PDF: <title>`
