@@ -1,0 +1,58 @@
+[
+  {
+    "id": "ai-council-multi-model-deliberation-projects/2026-04-12",
+    "topic": "AI Council / Multi-Model Deliberation Projects",
+    "prompt": "20 projects that have explored multi-model deliberation / AI council approaches — tools that send a prompt to multiple AI models emulating different perspectives",
+    "date": "2026-04-12",
+    "slug": "ai-council-multi-model-deliberation-projects",
+    "ideas": 20,
+    "depth": "standard",
+    "markdown_path": "runs/ai-council-multi-model-deliberation-projects/2026-04-12.md",
+    "pdf_path": "outputs/ai-council-multi-model-deliberation-projects/2026-04-12.pdf",
+    "tags": ["ai-council", "multi-model", "tools", "projects"],
+    "source_runs": null
+  },
+  {
+    "id": "ai-council-policy-geopolitics-use-cases/2026-04-12",
+    "topic": "AI Council Use Cases in Policy & Geopolitics",
+    "prompt": "20 potential use cases for multi-model deliberation / AI council approaches in policy and geopolitics exploration, including predictive use-cases and wargaming scenarios",
+    "date": "2026-04-12",
+    "slug": "ai-council-policy-geopolitics-use-cases",
+    "ideas": 20,
+    "depth": "standard",
+    "markdown_path": "runs/ai-council-policy-geopolitics-use-cases/2026-04-12.md",
+    "pdf_path": "outputs/ai-council-policy-geopolitics-use-cases/2026-04-12.pdf",
+    "tags": ["ai-council", "policy", "geopolitics", "predictive", "wargaming"],
+    "source_runs": null
+  },
+  {
+    "id": "geopolitical-fora-amenable-to-predictive-modelling/2026-04-12",
+    "topic": "Geopolitical Fora Amenable to Predictive Modelling",
+    "prompt": "20 geopolitical fora that are amenable to predictive modelling — relatively small, well-defined bodies with clear procedures, making them good candidates for AI council / multi-model deliberation wargaming and prediction",
+    "date": "2026-04-12",
+    "slug": "geopolitical-fora-amenable-to-predictive-modelling",
+    "ideas": 20,
+    "depth": "standard",
+    "markdown_path": "runs/geopolitical-fora-amenable-to-predictive-modelling/2026-04-12.md",
+    "pdf_path": "outputs/geopolitical-fora-amenable-to-predictive-modelling/2026-04-12.pdf",
+    "tags": ["geopolitics", "predictive-modelling", "fora", "wargaming"],
+    "source_runs": null
+  },
+  {
+    "id": "combined/ai-council-geopolitical-modelling/2026-04-12",
+    "topic": "AI Council Approaches for Geopolitical Modelling",
+    "prompt": "Combined from: ai-council-multi-model-deliberation-projects/2026-04-12, ai-council-policy-geopolitics-use-cases/2026-04-12, geopolitical-fora-amenable-to-predictive-modelling/2026-04-12",
+    "date": "2026-04-12",
+    "slug": "combined/ai-council-geopolitical-modelling",
+    "ideas": 60,
+    "depth": "combined",
+    "markdown_path": null,
+    "pdf_path": "outputs/combined/ai-council-geopolitical-modelling/2026-04-12.pdf",
+    "tags": ["combined", "ai-council", "geopolitics", "predictive-modelling"],
+    "source_runs": [
+      "ai-council-multi-model-deliberation-projects/2026-04-12",
+      "ai-council-policy-geopolitics-use-cases/2026-04-12",
+      "geopolitical-fora-amenable-to-predictive-modelling/2026-04-12"
+    ]
+  }
+]

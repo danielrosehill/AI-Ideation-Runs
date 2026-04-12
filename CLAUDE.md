@@ -7,13 +7,39 @@ This is a public repository of AI ideation runs. The user provides a topic promp
 ## Workspace Structure
 
 ```
-runs/           # Individual ideation run outputs (markdown), one folder per topic
-outputs/        # PDF renders and INDEX.md
-  INDEX.md      # Table of all runs with links to PDFs and markdown sources
+runs/               # Individual ideation run outputs (markdown), one folder per topic
+  manifest.json     # Manifest of all runs — prompts, params, output paths, tags
+outputs/            # PDF renders and INDEX.md
+  INDEX.md          # Table of all runs with links to PDFs and markdown sources
+  combined/         # Combined multi-run PDFs
 .claude/
-  skills/       # Skills for the workflow
-  commands/     # Slash commands (legacy)
+  skills/           # Skills for the workflow
+  commands/         # Slash commands (legacy)
 ```
+
+## Manifest (`runs/manifest.json`)
+
+Every run (single or combined) is recorded in the manifest. Each entry captures:
+
+```json
+{
+  "id": "<slug>/<YYYY-MM-DD>",
+  "topic": "Human-readable topic title",
+  "prompt": "The user's original prompt, verbatim",
+  "date": "YYYY-MM-DD",
+  "slug": "<slug>",
+  "ideas": 10,
+  "depth": "standard",
+  "markdown_path": "runs/<slug>/YYYY-MM-DD.md",
+  "pdf_path": "outputs/<slug>/YYYY-MM-DD.pdf",
+  "tags": ["optional", "topic", "tags"],
+  "source_runs": null
+}
+```
+
+Combined runs have `"depth": "combined"`, `"markdown_path": null`, and a `"source_runs"` array of source IDs.
+
+The manifest is the only cross-run file that skills may read. It is sorted by date descending.
 
 ## Core Workflow
 

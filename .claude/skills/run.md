@@ -1,6 +1,6 @@
 ---
 name: run
-description: Run an AI ideation session — generate ideas via subagent, render PDF via Typst subagent, save to outputs with index
+description: Run an AI ideation session — generate ideas via subagent, render PDF via Typst subagent, save to outputs with index and manifest
 user_invocable: true
 ---
 
@@ -39,7 +39,26 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
    [Ideas from subagent]
    ```
 
-6. **Spawn Typst PDF subagent** using the Agent tool. The subagent must:
+6. **Update the manifest**. Read `runs/manifest.json`, append a new entry, and write it back. Each entry:
+
+   ```json
+   {
+     "id": "<slug>/<YYYY-MM-DD>",
+     "topic": "The topic title",
+     "prompt": "The user's original prompt, verbatim",
+     "date": "YYYY-MM-DD",
+     "slug": "<slug>",
+     "ideas": 10,
+     "depth": "standard",
+     "markdown_path": "runs/<slug>/YYYY-MM-DD.md",
+     "pdf_path": "outputs/<slug>/YYYY-MM-DD.pdf",
+     "tags": ["optional", "user-provided", "or", "inferred"]
+   }
+   ```
+
+   Keep the array sorted by date descending (newest first).
+
+7. **Spawn Typst PDF subagent** using the Agent tool. The subagent must:
    - Read the markdown file just saved
    - Write a `.typ` file in the same output folder that renders the ideas into a clean, professional PDF
    - Use IBM Plex Sans font if available, fallback to sans-serif
@@ -50,7 +69,7 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
    - Save the PDF to `outputs/<slug>/YYYY-MM-DD.pdf`
    - Clean up the `.typ` file after successful compilation (or keep it — user's choice)
 
-7. **Update the index**. Read `outputs/INDEX.md` (create if missing). Append a row to the table:
+8. **Update the index**. Read `outputs/INDEX.md` (create if missing). Append a row to the table:
 
    ```markdown
    | [Topic] | YYYY-MM-DD | N | depth | [PDF](slug/YYYY-MM-DD.pdf) | [Markdown](../runs/slug/YYYY-MM-DD.md) |
@@ -58,13 +77,13 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
 
    Keep the table sorted by date descending (newest first).
 
-8. **Commit and push** with message: `Add ideation run: <topic>`
+9. **Commit and push** with message: `Add ideation run: <topic>`
 
-9. **Report**: Tell the user how many ideas were generated, which categories were covered, and the path to the PDF.
+10. **Report**: Tell the user how many ideas were generated, which categories were covered, and the path to the PDF.
 
 ## Isolation Rule
 
-**Each run is fully independent.** Do not scan, read, or reference any other files in `runs/` or prior outputs. No deduplication, no cross-referencing.
+**Each run is fully independent.** Do not scan, read, or reference any other files in `runs/` or prior outputs. No deduplication, no cross-referencing. The manifest is the only file you read from `runs/` (to append to it).
 
 ## Creativity Guidelines (pass to ideation subagent)
 
