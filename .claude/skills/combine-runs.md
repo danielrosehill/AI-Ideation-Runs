@@ -68,13 +68,16 @@ Merge multiple ideation run markdown files into a single combined PDF with a tit
 
    - **Drive parent folder ID**: `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt` (Ideation_Runs subfolder)
    - **Workspace**: `personal`
-   - **Step A — Stage the file**: SCP the PDF to `ubuntuvm:/tmp/gws-mcp-staging/` (or POST to the staging service at `http://10.0.0.4:3201/upload` if available).
+   - **Step A — Stage the file via MinIO**: Stage the PDF and capture the presigned URL:
+     ```bash
+     python3 ~/.claude/lib/minio-stage.py outputs/combined/<slug>/YYYY-MM-DD.pdf --expires 3600
+     ```
+     Legacy `:3201/upload` / `/tmp/gws-mcp-staging/` was decommissioned 2026-04-20 — don't use.
    - **Step B — Create Drive subfolder**: Use `mcp__jungle-personal__gws-personal__create_folder` to create `combined--<slugified-title>` inside `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt`.
    - **Step C — Upload**: Use `mcp__jungle-personal__gws-personal__upload_file` with:
-     - `sourcePath`: the **remote** path on ubuntuvm
+     - `sourceUrl`: the presigned URL from Step A
      - `name`: `YYYY-MM-DD.pdf`
-     - `folderId`: the subfolder ID from Step B
-     - `cleanupSource`: `true`
+     - `parents`: `["<subfolder ID from Step B>"]`
    - If the upload fails, warn the user but do not block the commit/push step.
 
 9. **Commit and push** with message: `Add combined PDF: <title>`

@@ -84,13 +84,17 @@ Generate a structured batch of ideas for a user-provided topic, render them as a
 
    - **Drive parent folder ID**: `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt` (Ideation_Runs subfolder)
    - **Workspace**: `personal`
-   - **Step A — Stage the file**: The GWS MCP runs on ubuntuvm, so local files must be staged first. Use `scp` to copy the PDF to `ubuntuvm:/tmp/gws-mcp-staging/` (or POST to the staging service at `http://10.0.0.4:3201/upload` if available).
+   - **Step A — Stage the file via MinIO**: The GWS MCP runs on ubuntuvm. Stage the PDF and capture the presigned URL:
+     ```bash
+     python3 ~/.claude/lib/minio-stage.py outputs/<slug>/YYYY-MM-DD.pdf --expires 3600
+     # → {"url":"http://10.0.0.4:9100/mcp-staging/<uuid>/YYYY-MM-DD.pdf?X-Amz-...",...}
+     ```
+     The legacy `mcp-file-staging` service on `:3201` and the `/tmp/gws-mcp-staging/` bind-mount were decommissioned 2026-04-20 — do not use them.
    - **Step B — Create Drive subfolder**: Use `mcp__jungle-personal__gws-personal__create_folder` to create a subfolder named `<slug>` inside `1DxxXi-XjKXZmTc_SgsKQDveAk01oNcrt`. If a subfolder for this slug already exists (repeat topic on a new date), reuse it.
    - **Step C — Upload**: Use `mcp__jungle-personal__gws-personal__upload_file` with:
-     - `sourcePath`: the **remote** path on ubuntuvm (e.g., `/tmp/gws-mcp-staging/YYYY-MM-DD.pdf`)
+     - `sourceUrl`: the presigned URL from Step A
      - `name`: `YYYY-MM-DD.pdf`
-     - `folderId`: the subfolder ID from Step B
-     - `cleanupSource`: `true` (auto-deletes the staged file after upload)
+     - `parents`: `["<subfolder ID from Step B>"]`
    - If the upload fails, warn the user but do not block the commit/push step.
 
 10. **Commit and push** with message: `Add ideation run: <topic>`
